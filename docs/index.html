@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Arizona Rules AI — база правил</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<div id="app" class="layout">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">A<span>✦</span></div><div><strong>ARIZONA<span class="brand-red">.AI</span></strong><small>RULES ASSISTANT</small></div></div>
+    <div class="sidebar-caption">РАБОЧЕЕ ПРОСТРАНСТВО</div>
+    <nav class="nav" aria-label="Разделы">
+      <button class="nav-item active" type="button" data-page="chat"><span class="nav-icon">▣</span> Чат с правилами <span class="nav-arrow">↗</span></button>
+      <button class="nav-item" type="button" data-page="knowledge"><span class="nav-icon">▤</span> База знаний <span id="nav-doc-count" class="nav-count">0</span></button>
+      <button class="nav-item" type="button" data-page="import"><span class="nav-icon">⊕</span> Добавить правила</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="storage-card"><div class="storage-head"><span>База знаний</span><span class="green-dot"></span></div><b id="side-documents">0 документов</b><p>База хранится только в этом браузере. У других посетителей своя база.</p></div>
+      <div class="sidebar-footer"><span>✦</span> Основано на твоих источниках</div>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div class="crumb">WORKSPACE <span>/</span> <b id="current-page">AI ЧАТ</b></div><div class="topright"><div class="model-status"><span class="green-dot"></span><span id="ai-state">Режим поиска</span></div><button id="logout" class="icon-button" hidden title="Выйти из аккаунта" aria-label="Выйти">↪</button></div></header>
+    <section id="page-chat" class="page page-chat visible">
+      <div class="chat-header"><div class="eyebrow">ЗНАНИЯ ПОД РУКОЙ <span class="line"></span></div><h1>Спроси о <em>правилах.</em></h1><p>Ищи фрагменты в своих правилах Arizona RP. Это бесплатный поиск без ИИ. Сначала добавь документы: общая база на сервере отсутствует.</p></div>
+      <div id="chat-log" class="chat-log" role="log" aria-live="polite">
+        <div class="welcome-card"><div class="welcome-icon">✦</div><h2>С чего начнём?</h2><p>Просто напиши свой вопрос. Я найду нужный пункт в базе правил.</p>
+          <div class="suggestions"><button type="button" data-question="Что такое стадии применения силы?">Стадии применения силы <span>↗</span></button><button type="button" data-question="Какие существуют общие правила государственных структур?">Правила госструктур <span>↗</span></button><button type="button" data-question="Где найти правила ФБР?">Правила ФБР <span>↗</span></button></div>
+        </div>
+      </div>
+      <form id="chat-form" class="composer"><div class="composer-row"><span class="composer-sparkle">✦</span><textarea id="question" rows="1" maxlength="800" placeholder="Напиши вопрос по правилам проекта…" aria-label="Вопрос по правилам" required></textarea><button id="send" class="send-btn" type="submit" aria-label="Отправить вопрос">➤</button></div><div class="composer-hint"><span>Локальный поиск · без ИИ и пароля</span><span>ENTER — отправить · SHIFT+ENTER — новая строка</span></div></form>
+    </section>
+    <section id="page-knowledge" class="page page-content"><div class="content-heading"><div><div class="eyebrow">БАЗА ПРАВИЛ</div><h1>Мои <em>документы.</em></h1><p>Только в этом браузере. Экспортируй базу для резервного копирования или передачи друзьям. JSON-копию можно загрузить через «Добавить правила».</p></div><button type="button" class="primary-btn go-import">＋ Добавить</button></div>
+      <div class="stats-grid"><div class="stat"><span>Всего документов</span><strong id="stat-docs">0</strong></div><div class="stat"><span>Фрагментов в поиске</span><strong id="stat-chunks">0</strong></div><div class="stat"><span>Категорий</span><strong id="stat-categories">0</strong></div></div>
+      <div class="panel-heading"><h2>Загруженные материалы</h2><button class="subtle-btn" id="export" type="button">↓ Экспорт базы</button><button class="subtle-btn" id="refresh" type="button">↻ Обновить</button></div><div id="documents" class="document-list"><div class="empty">Пока нет документов. Загрузи первое правило.</div></div>
+    </section>
+    <section id="page-import" class="page page-content"><div class="content-heading"><div><div class="eyebrow">ПОПОЛНИ БАЗУ</div><h1>Добавить <em>правила.</em></h1><p>Загруженные данные автоматически разбиваются на фрагменты и индексируются для быстрого поиска.</p></div></div>
+      <div class="import-layout"><div class="import-main"><div class="tabs" role="tablist" aria-label="Способ загрузки"><button type="button" data-import-tab="files" class="tab active">↑ Файлы</button><button type="button" data-import-tab="urls" class="tab" hidden>⌁ Ссылки с форума</button><button type="button" data-import-tab="text" class="tab">≡ Вставить текст</button></div>
+          <div class="panel import-panel" id="import-files"><form id="file-form"><div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Выбрать файлы"><div class="upload-icon">⇧</div><h3>Перетащи документы сюда</h3><p>или <strong>выбери файлы</strong> на компьютере</p><small>TXT, MD, HTML, JSON · до 8 МБ за файл</small><input id="file-input" type="file" multiple accept=".txt,.md,.html,.htm,.json" hidden /></div><div id="selected-files" class="selected-files"></div><label class="field-label" for="file-category">Категория</label><select id="file-category" class="field-select"></select><button class="primary-btn full" type="submit">Импортировать файлы <span>→</span></button></form></div>
+          <div class="panel import-panel hidden" id="import-urls"><form id="urls-form"><p class="field-intro">Вставь публичные ссылки на темы форума Arizona RP, по одной в строке. Максимум 8 за раз.</p><label class="field-label" for="urls">Ссылки на темы</label><textarea class="field-textarea" id="urls" rows="7" placeholder="https://forum.arizona-rp.com/threads/..." required></textarea><label class="field-label" for="url-category">Категория</label><select id="url-category" class="field-select"></select><p class="form-note">Если форум блокирует автоматическое чтение, скопируй текст в третьей вкладке.</p><button class="primary-btn full" type="submit">Загрузить с форума <span>→</span></button></form></div>
+          <div class="panel import-panel hidden" id="import-text"><form id="text-form"><label class="field-label" for="text-title">Название документа</label><input class="field-input" id="text-title" maxlength="220" placeholder="Например: Общие правила государственных структур" required /><label class="field-label" for="text-content">Текст правил</label><textarea class="field-textarea" id="text-content" rows="10" placeholder="Вставь сюда текст правил…" minlength="30" maxlength="800000" required></textarea><label class="field-label" for="text-url">Ссылка на источник (необязательно)</label><input class="field-input" id="text-url" type="url" placeholder="https://forum.arizona-rp.com/..." /><label class="field-label" for="text-category">Категория</label><select id="text-category" class="field-select"></select><button class="primary-btn full" type="submit">Сохранить в базу <span>→</span></button></form></div>
+          <div id="import-result" class="notice hidden" role="status"></div></div>
+          <div class="import-help"><div class="help-icon">✳</div><h3>Как это работает?</h3><div class="step"><b>01</b><div><strong>Загрузи правила</strong><p>Файлом TXT, MD, HTML или обычным текстом. PDF и DOCX сначала сохрани как текст.</p></div></div><div class="step"><b>02</b><div><strong>Автоматическая обработка</strong><p>Документы сохраняются на твоём устройстве и разбиваются на фрагменты для поиска.</p></div></div><div class="step"><b>03</b><div><strong>Задавай вопросы</strong><p>Поиск по ключевым словам показывает фрагменты и источники. Генерация ответов ИИ недоступна.</p></div></div><div class="help-note">Важно: если документ устарел, удали его из базы и загрузи актуальную версию.</div></div></div>
+    </section>
+  </main>
+</div>
+<div id="login-screen" class="login-backdrop hidden"><form id="login-form" class="login-card"><div class="brand-mark">A<span>✦</span></div><h2>Вход в Arizona AI</h2><p>Эта база правил закрыта паролем администратора.</p><label for="login-password">Пароль</label><input type="password" id="login-password" required autocomplete="current-password" placeholder="Введите пароль" /><button type="submit" class="primary-btn full">Войти →</button><div id="login-error" class="error-line" role="alert"></div></form></div>
+<div id="toast" class="toast hidden" role="status"></div>
+<script src="./local-api.js" defer></script>
+<script src="./app.js" defer></script>
+</body>
+</html>
