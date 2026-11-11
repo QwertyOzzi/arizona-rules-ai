@@ -1,0 +1,1 @@
+"""Arizona Rules AI application."""
